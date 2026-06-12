@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VehicleLink.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a24abf72e052ea08d5dd65d259e8af13b7841d00")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f2f07d5da2e6710d287d39628ffaa5715e729bcd")]
 [assembly: System.Reflection.AssemblyProductAttribute("VehicleLink.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VehicleLink.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

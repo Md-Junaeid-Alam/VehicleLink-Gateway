@@ -1269,6 +1269,21 @@
         "runtime": {
           "bin/placeholder/VehicleLink.Core.dll": {}
         }
+      },
+      "VehicleLink.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "10.0.9",
+          "Microsoft.EntityFrameworkCore.SqlServer": "10.0.9",
+          "VehicleLink.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/VehicleLink.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/VehicleLink.Infrastructure.dll": {}
+        }
       }
     }
   },
@@ -3490,6 +3505,11 @@
       "type": "project",
       "path": "../VehicleLink.Core/VehicleLink.Core.csproj",
       "msbuildProject": "../VehicleLink.Core/VehicleLink.Core.csproj"
+    },
+    "VehicleLink.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../VehicleLink.Infrastructure/VehicleLink.Infrastructure.csproj",
+      "msbuildProject": "../VehicleLink.Infrastructure/VehicleLink.Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -3499,9 +3519,11 @@
       "MQTTnet.AspNetCore >= 5.1.0.1559",
       "Microsoft.AspNetCore.OpenApi >= 10.0.5",
       "Microsoft.AspNetCore.SignalR >= 1.2.11",
+      "Microsoft.EntityFrameworkCore.Design >= 10.0.9",
       "Microsoft.EntityFrameworkCore.SqlServer >= 10.0.9",
       "Microsoft.EntityFrameworkCore.Tools >= 10.0.9",
-      "VehicleLink.Core >= 1.0.0"
+      "VehicleLink.Core >= 1.0.0",
+      "VehicleLink.Infrastructure >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -3539,6 +3561,9 @@
           "projectReferences": {
             "D:\\VehicleLinkGatewayProject\\VehicleLink.Core\\VehicleLink.Core.csproj": {
               "projectPath": "D:\\VehicleLinkGatewayProject\\VehicleLink.Core\\VehicleLink.Core.csproj"
+            },
+            "D:\\VehicleLinkGatewayProject\\VehicleLink.Infrastructure\\VehicleLink.Infrastructure.csproj": {
+              "projectPath": "D:\\VehicleLinkGatewayProject\\VehicleLink.Infrastructure\\VehicleLink.Infrastructure.csproj"
             }
           }
         }
@@ -3578,6 +3603,12 @@
           "Microsoft.AspNetCore.SignalR": {
             "target": "Package",
             "version": "[1.2.11, )"
+          },
+          "Microsoft.EntityFrameworkCore.Design": {
+            "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "[10.0.9, )"
           },
           "Microsoft.EntityFrameworkCore.SqlServer": {
             "target": "Package",

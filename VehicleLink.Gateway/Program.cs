@@ -1,5 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using VehicleLink.Gateway.Hubs;
 using VehicleLink.Gateway.Services;
+using VehicleLink.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +12,10 @@ builder.Services.AddSingleton<IKafkaProducerService, KafkaProducerService>();
 builder.Services.AddHostedService<MqttListenerService>();
 builder.Services.AddHostedService<KafkaConsumerService>();
 
-// CORS for Angular dashboard
+builder.Services.AddDbContext<VehicleLinkDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("DashboardPolicy", policy =>

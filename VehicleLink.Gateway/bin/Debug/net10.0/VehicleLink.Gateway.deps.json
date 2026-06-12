@@ -12,9 +12,10 @@
           "MQTTnet": "5.1.0.1559",
           "MQTTnet.AspNetCore": "5.1.0.1559",
           "Microsoft.AspNetCore.OpenApi": "10.0.5",
+          "Microsoft.EntityFrameworkCore.Design": "10.0.9",
           "Microsoft.EntityFrameworkCore.SqlServer": "10.0.9",
-          "Microsoft.EntityFrameworkCore.Tools": "10.0.9",
-          "VehicleLink.Core": "1.0.0"
+          "VehicleLink.Core": "1.0.0",
+          "VehicleLink.Infrastructure": "1.0.0"
         },
         "runtime": {
           "VehicleLink.Gateway.dll": {}
@@ -659,11 +660,6 @@
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Tools/10.0.9": {
-        "dependencies": {
-          "Microsoft.EntityFrameworkCore.Design": "10.0.9"
-        }
-      },
       "Microsoft.Extensions.DependencyModel/10.0.9": {
         "runtime": {
           "lib/net10.0/Microsoft.Extensions.DependencyModel.dll": {
@@ -958,6 +954,19 @@
             "fileVersion": "1.0.0.0"
           }
         }
+      },
+      "VehicleLink.Infrastructure/1.0.0": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "10.0.9",
+          "Microsoft.EntityFrameworkCore.SqlServer": "10.0.9",
+          "VehicleLink.Core": "1.0.0"
+        },
+        "runtime": {
+          "VehicleLink.Infrastructure.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -1113,13 +1122,6 @@
       "sha512": "sha512-wjgpB/UFSeMU3uMfMzD4so567vJi5UugE6iTcONBx+rPb/PWpjYlzYKyxm2pGAFNpTFNbqoirtt7uUCc97Tfiw==",
       "path": "microsoft.entityframeworkcore.sqlserver/10.0.9",
       "hashPath": "microsoft.entityframeworkcore.sqlserver.10.0.9.nupkg.sha512"
-    },
-    "Microsoft.EntityFrameworkCore.Tools/10.0.9": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-UDdNBGQTXvuenVLHIFAeiSzUydss3Y9ukbDIn08ZX/MrR6CcVqTvh+le+oKIn3XOWKV/YrMWZpjUzO14oVPwMw==",
-      "path": "microsoft.entityframeworkcore.tools/10.0.9",
-      "hashPath": "microsoft.entityframeworkcore.tools.10.0.9.nupkg.sha512"
     },
     "Microsoft.Extensions.DependencyModel/10.0.9": {
       "type": "package",
@@ -1325,6 +1327,11 @@
       "hashPath": "system.security.cryptography.protecteddata.9.0.4.nupkg.sha512"
     },
     "VehicleLink.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "VehicleLink.Infrastructure/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

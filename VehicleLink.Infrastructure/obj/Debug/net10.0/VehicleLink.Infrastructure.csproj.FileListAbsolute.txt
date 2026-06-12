@@ -10,3 +10,9 @@ D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\obj\Debug\net10.0\Vehicl
 D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\obj\Debug\net10.0\refint\VehicleLink.Infrastructure.dll
 D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\obj\Debug\net10.0\VehicleLink.Infrastructure.pdb
 D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\obj\Debug\net10.0\ref\VehicleLink.Infrastructure.dll
+D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\bin\Debug\net10.0\VehicleLink.Infrastructure.runtimeconfig.json
+D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\bin\Debug\net10.0\VehicleLink.Core.dll
+D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\bin\Debug\net10.0\VehicleLink.Core.pdb
+D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\obj\Debug\net10.0\VehicleLink.Infrastructure.csproj.AssemblyReference.cache
+D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\obj\Debug\net10.0\VehicleL.B2729A4B.Up2Date
+D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\obj\Debug\net10.0\VehicleLink.Infrastructure.genruntimeconfig.cache

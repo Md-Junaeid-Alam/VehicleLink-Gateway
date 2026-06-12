@@ -28,19 +28,14 @@ The project addresses core challenges in modern V2X infrastructure:
 
 ## Architecture
 
-[Vehicle / RSU Simulator]
-        │  MQTT over mTLS (port 8883)
-        ▼
-[Mosquitto Broker]  ← device identity verified via client certificates
-        │
-        ▼
-[ASP.NET Core Gateway API]
-        ├──► Kafka Producer → [Topic: vehicle-telemetry]
-        │                            │
-        │                     Kafka Consumer
-        │                            │
-        └──► SignalR Hub ◄───────────┘ 
-                │
-        [Angular Dashboard]  ← live map + alert feed
-                │
-        [SQL Server / EF Core]  ← persisted telemetry logs
+```mermaid
+flowchart LR
+    SIM["Vehicle Simulator"] -->|MQTT mTLS| BRK["Mosquitto\nBroker"]
+    BRK --> GW["ASP.NET Core\nGateway"]
+    GW --> KP["Kafka\nProducer"]
+    KP --> KT[("vehicle-telemetry\ntopic")]
+    KT --> KC["Kafka\nConsumer"]
+    KC --> HUB["SignalR\nHub"]
+    HUB -->|WebSocket| UI["Angular\nDashboard"]
+    GW --> DB[("SQL Server\nEF Core")]
+```

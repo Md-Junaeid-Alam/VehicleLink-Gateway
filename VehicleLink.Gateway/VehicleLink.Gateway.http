@@ -1,0 +1,6 @@
+@VehicleLink.Gateway_HostAddress = http://localhost:5038
+
+GET {{VehicleLink.Gateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

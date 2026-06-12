@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="VehicleLink.Core/VehicleLink.Core.csproj" />
+  <Project Path="VehicleLink.Gateway/VehicleLink.Gateway.csproj" />
+  <Project Path="VehicleLink.Infrastructure/VehicleLink.Infrastructure.csproj" />
+</Solution>

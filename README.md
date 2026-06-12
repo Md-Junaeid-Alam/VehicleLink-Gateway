@@ -1,4 +1,4 @@
-# VehicleLink-Gateway
+# VehicleLink Gateway
 Real-time V2X communication gateway MQTT over mTLS → Kafka → SignalR → Angular Dashboard. Built with ASP.NET Core 10.0
 ## Overview
 VehicleLink Gateway is a real-time Vehicle-to-Everything (V2X) communication 

@@ -1,0 +1,12 @@
+D:\VehicleLinkGatewayProject\VehicleLink.Core\bin\Debug\net10.0\VehicleLink.Core.deps.json
+D:\VehicleLinkGatewayProject\VehicleLink.Core\bin\Debug\net10.0\VehicleLink.Core.dll
+D:\VehicleLinkGatewayProject\VehicleLink.Core\bin\Debug\net10.0\VehicleLink.Core.pdb
+D:\VehicleLinkGatewayProject\VehicleLink.Core\obj\Debug\net10.0\VehicleLink.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\VehicleLinkGatewayProject\VehicleLink.Core\obj\Debug\net10.0\VehicleLink.Core.AssemblyInfoInputs.cache
+D:\VehicleLinkGatewayProject\VehicleLink.Core\obj\Debug\net10.0\VehicleLink.Core.AssemblyInfo.cs
+D:\VehicleLinkGatewayProject\VehicleLink.Core\obj\Debug\net10.0\VehicleLink.Core.csproj.CoreCompileInputs.cache
+D:\VehicleLinkGatewayProject\VehicleLink.Core\obj\Debug\net10.0\VehicleLink.Core.sourcelink.json
+D:\VehicleLinkGatewayProject\VehicleLink.Core\obj\Debug\net10.0\VehicleLink.Core.dll
+D:\VehicleLinkGatewayProject\VehicleLink.Core\obj\Debug\net10.0\refint\VehicleLink.Core.dll
+D:\VehicleLinkGatewayProject\VehicleLink.Core\obj\Debug\net10.0\VehicleLink.Core.pdb
+D:\VehicleLinkGatewayProject\VehicleLink.Core\obj\Debug\net10.0\ref\VehicleLink.Core.dll

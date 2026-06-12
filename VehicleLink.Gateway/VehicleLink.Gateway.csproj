@@ -19,4 +19,8 @@
     <PackageReference Include="MQTTnet.AspNetCore" Version="5.1.0.1559" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VehicleLink.Core\VehicleLink.Core.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\VehicleLinkGateway\\VehicleLink.Infrastructure\\VehicleLink.Infrastructure.csproj": {}
+    "D:\\VehicleLinkGatewayProject\\VehicleLink.Infrastructure\\VehicleLink.Infrastructure.csproj": {}
   },
   "projects": {
-    "D:\\VehicleLinkGateway\\VehicleLink.Infrastructure\\VehicleLink.Infrastructure.csproj": {
+    "D:\\VehicleLinkGatewayProject\\VehicleLink.Infrastructure\\VehicleLink.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\VehicleLinkGateway\\VehicleLink.Infrastructure\\VehicleLink.Infrastructure.csproj",
+        "projectUniqueName": "D:\\VehicleLinkGatewayProject\\VehicleLink.Infrastructure\\VehicleLink.Infrastructure.csproj",
         "projectName": "VehicleLink.Infrastructure",
-        "projectPath": "D:\\VehicleLinkGateway\\VehicleLink.Infrastructure\\VehicleLink.Infrastructure.csproj",
+        "projectPath": "D:\\VehicleLinkGatewayProject\\VehicleLink.Infrastructure\\VehicleLink.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\mdjun\\.nuget\\packages\\",
-        "outputPath": "D:\\VehicleLinkGateway\\VehicleLink.Infrastructure\\obj\\",
+        "outputPath": "D:\\VehicleLinkGatewayProject\\VehicleLink.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,0 +1,12 @@
+D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\bin\Debug\net10.0\VehicleLink.Infrastructure.deps.json
+D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\bin\Debug\net10.0\VehicleLink.Infrastructure.dll
+D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\bin\Debug\net10.0\VehicleLink.Infrastructure.pdb
+D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\obj\Debug\net10.0\VehicleLink.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\obj\Debug\net10.0\VehicleLink.Infrastructure.AssemblyInfoInputs.cache
+D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\obj\Debug\net10.0\VehicleLink.Infrastructure.AssemblyInfo.cs
+D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\obj\Debug\net10.0\VehicleLink.Infrastructure.csproj.CoreCompileInputs.cache
+D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\obj\Debug\net10.0\VehicleLink.Infrastructure.sourcelink.json
+D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\obj\Debug\net10.0\VehicleLink.Infrastructure.dll
+D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\obj\Debug\net10.0\refint\VehicleLink.Infrastructure.dll
+D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\obj\Debug\net10.0\VehicleLink.Infrastructure.pdb
+D:\VehicleLinkGatewayProject\VehicleLink.Infrastructure\obj\Debug\net10.0\ref\VehicleLink.Infrastructure.dll

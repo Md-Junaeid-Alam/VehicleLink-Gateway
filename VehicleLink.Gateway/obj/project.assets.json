@@ -1259,6 +1259,16 @@
         "build": {
           "buildTransitive/net8.0/_._": {}
         }
+      },
+      "VehicleLink.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/VehicleLink.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/VehicleLink.Core.dll": {}
+        }
       }
     }
   },
@@ -3475,6 +3485,11 @@
         "system.security.cryptography.protecteddata.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "VehicleLink.Core/1.0.0": {
+      "type": "project",
+      "path": "../VehicleLink.Core/VehicleLink.Core.csproj",
+      "msbuildProject": "../VehicleLink.Core/VehicleLink.Core.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -3485,7 +3500,8 @@
       "Microsoft.AspNetCore.OpenApi >= 10.0.5",
       "Microsoft.AspNetCore.SignalR >= 1.2.11",
       "Microsoft.EntityFrameworkCore.SqlServer >= 10.0.9",
-      "Microsoft.EntityFrameworkCore.Tools >= 10.0.9"
+      "Microsoft.EntityFrameworkCore.Tools >= 10.0.9",
+      "VehicleLink.Core >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -3495,11 +3511,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\VehicleLinkGateway\\VehicleLink.Gateway\\VehicleLink.Gateway.csproj",
+      "projectUniqueName": "D:\\VehicleLinkGatewayProject\\VehicleLink.Gateway\\VehicleLink.Gateway.csproj",
       "projectName": "VehicleLink.Gateway",
-      "projectPath": "D:\\VehicleLinkGateway\\VehicleLink.Gateway\\VehicleLink.Gateway.csproj",
+      "projectPath": "D:\\VehicleLinkGatewayProject\\VehicleLink.Gateway\\VehicleLink.Gateway.csproj",
       "packagesPath": "C:\\Users\\mdjun\\.nuget\\packages\\",
-      "outputPath": "D:\\VehicleLinkGateway\\VehicleLink.Gateway\\obj\\",
+      "outputPath": "D:\\VehicleLinkGatewayProject\\VehicleLink.Gateway\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3520,7 +3536,11 @@
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\VehicleLinkGatewayProject\\VehicleLink.Core\\VehicleLink.Core.csproj": {
+              "projectPath": "D:\\VehicleLinkGatewayProject\\VehicleLink.Core\\VehicleLink.Core.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\VehicleLinkGateway\\VehicleLink.Core\\VehicleLink.Core.csproj",
+      "projectUniqueName": "D:\\VehicleLinkGatewayProject\\VehicleLink.Core\\VehicleLink.Core.csproj",
       "projectName": "VehicleLink.Core",
-      "projectPath": "D:\\VehicleLinkGateway\\VehicleLink.Core\\VehicleLink.Core.csproj",
+      "projectPath": "D:\\VehicleLinkGatewayProject\\VehicleLink.Core\\VehicleLink.Core.csproj",
       "packagesPath": "C:\\Users\\mdjun\\.nuget\\packages\\",
-      "outputPath": "D:\\VehicleLinkGateway\\VehicleLink.Core\\obj\\",
+      "outputPath": "D:\\VehicleLinkGatewayProject\\VehicleLink.Core\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

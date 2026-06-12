@@ -39,7 +39,7 @@ The project addresses core challenges in modern V2X infrastructure:
         │                            │
         │                     Kafka Consumer
         │                            │
-        └──► SignalR Hub ◄───────────┘
+        └──► SignalR Hub ◄───────────┘ 
                 │
         [Angular Dashboard]  ← live map + alert feed
                 │

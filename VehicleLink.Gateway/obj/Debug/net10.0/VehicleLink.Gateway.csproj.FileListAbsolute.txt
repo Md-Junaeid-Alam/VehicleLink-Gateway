@@ -183,7 +183,6 @@ D:\VehicleLinkGatewayProject\VehicleLink.Gateway\obj\Debug\net10.0\staticwebasse
 D:\VehicleLinkGatewayProject\VehicleLink.Gateway\obj\Debug\net10.0\staticwebassets.development.json
 D:\VehicleLinkGatewayProject\VehicleLink.Gateway\obj\Debug\net10.0\staticwebassets.build.endpoints.json
 D:\VehicleLinkGatewayProject\VehicleLink.Gateway\obj\Debug\net10.0\swae.build.ex.cache
-D:\VehicleLinkGatewayProject\VehicleLink.Gateway\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 D:\VehicleLinkGatewayProject\VehicleLink.Gateway\obj\Debug\net10.0\VehicleL.E4D2E148.Up2Date
 D:\VehicleLinkGatewayProject\VehicleLink.Gateway\obj\Debug\net10.0\VehicleLink.Gateway.dll
 D:\VehicleLinkGatewayProject\VehicleLink.Gateway\obj\Debug\net10.0\refint\VehicleLink.Gateway.dll

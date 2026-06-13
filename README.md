@@ -23,7 +23,7 @@ The project addresses core challenges in modern V2X infrastructure:
 | Event streaming | Apache Kafka (Confluent.Kafka) |
 | Real-time push | SignalR |
 | Persistence | EF Core, SQL Server |
-| Frontend | Angular, @microsoft/signalr |
+| Frontend | HTML, @microsoft/signalr |
 | Deployment | Docker, Azure Kubernetes Service (AKS) |
 
 ## Architecture

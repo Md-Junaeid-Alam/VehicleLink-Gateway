@@ -2,7 +2,7 @@
 Real time V2X communication gateway MQTT over mTLS → Kafka → SignalR → HTML Dashboard. Built with ASP.NET Core 10.0
 ## Overview
 VehicleLink Gateway is a real time Vehicle-to-Everything (V2X) communication 
-gateway built with ASP.NET Core 8. It ingests telemetry from vehicles and 
+gateway built with ASP.NET Core 10.0. It ingests telemetry from vehicles and 
 roadside units over MQTT with mutual TLS authentication, streams events through 
 Apache Kafka, and broadcasts safety critical alerts to a live HTML operator 
 dashboard via SignalR WebSocket all deployable on Docker and Azure Kubernetes 
@@ -18,7 +18,7 @@ The project addresses core challenges in modern V2X infrastructure:
 
 | Layer | Technology |
 |---|---|
-| Gateway API | ASP.NET Core 8, C# |
+| Gateway API | ASP.NET Core 10.0, C# |
 | Secure messaging | MQTT (MQTTnet), mTLS, OpenSSL |
 | Event streaming | Apache Kafka (Confluent.Kafka) |
 | Real-time push | SignalR |
@@ -32,7 +32,7 @@ The project addresses core challenges in modern V2X infrastructure:
 flowchart TD
     A["🚗 Vehicle / RSU Simulator\nConsole App · MQTTnet"]
     B["🔒 Mosquitto Broker\nport 8883 · mTLS"]
-    C["⚙️ ASP.NET Core Gateway API\n.NET 8 · BackgroundService"]
+    C["⚙️ ASP.NET Core Gateway API\n.NET 10 · BackgroundService"]
     D["📨 Kafka Producer\nConfluent.Kafka"]
     E["📬 Kafka Topic\nvehicle-telemetry"]
     F["📥 Kafka Consumer\nBackgroundService"]

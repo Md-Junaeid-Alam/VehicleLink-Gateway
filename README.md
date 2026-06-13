@@ -1,10 +1,10 @@
 # VehicleLink Gateway
-Real time V2X communication gateway MQTT over mTLS → Kafka → SignalR → Angular Dashboard. Built with ASP.NET Core 10.0
+Real time V2X communication gateway MQTT over mTLS → Kafka → SignalR → HTML Dashboard. Built with ASP.NET Core 10.0
 ## Overview
 VehicleLink Gateway is a real time Vehicle-to-Everything (V2X) communication 
 gateway built with ASP.NET Core 8. It ingests telemetry from vehicles and 
 roadside units over MQTT with mutual TLS authentication, streams events through 
-Apache Kafka, and broadcasts safety critical alerts to a live Angular operator 
+Apache Kafka, and broadcasts safety critical alerts to a live HTML operator 
 dashboard via SignalR WebSocket all deployable on Docker and Azure Kubernetes 
 Service (AKS).
 
@@ -37,7 +37,7 @@ flowchart TD
     E["📬 Kafka Topic\nvehicle-telemetry"]
     F["📥 Kafka Consumer\nBackgroundService"]
     G["📡 SignalR Hub\nTelemetryHub"]
-    H["🖥️ Angular Dashboard\nlive map · alert feed"]
+    H["🖥️ HTML Dashboard\nlive map · alert feed"]
     I["🗄️ SQL Server\nEF Core · telemetry logs"]
     J["☁️ Docker + AKS\nAzure Kubernetes Service"]
 
@@ -62,3 +62,10 @@ flowchart TD
     style I fill:#3d2a0a,stroke:#e3a034,color:#f0c070
     style J fill:#3d1010,stroke:#e24b4a,color:#f07070
 ```
+## Live Demo
+
+<img width="800" height="404" alt="Image" src="https://github.com/user-attachments/assets/fe698a22-5200-4d26-b4a1-d64d893586a7"/>
+
+> Real-time V2X telemetry from 3 vehicles flowing through 
+> MQTT over mTLS → Kafka → SignalR → operator dashboard.
+> EMERGENCY events trigger live alerts with visual indicators.

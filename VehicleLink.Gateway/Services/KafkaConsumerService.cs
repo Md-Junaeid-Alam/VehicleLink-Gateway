@@ -41,11 +41,15 @@ public class KafkaConsumerService : BackgroundService
         _logger.LogInformation(
             "Kafka consumer started — listening on vehicle-telemetry");
 
+        // Wait for topic to be created by first producer message
+        await Task.Delay(3000, ct);
+
         while (!ct.IsCancellationRequested)
         {
             try
             {
-                var result = consumer.Consume(ct);
+                var result = consumer.Consume(TimeSpan.FromSeconds(1));
+                if (result is null) continue;
 
                 var telemetry = JsonSerializer
                     .Deserialize<VehicleTelemetry>(result.Message.Value);
@@ -69,6 +73,19 @@ public class KafkaConsumerService : BackgroundService
             catch (OperationCanceledException)
             {
                 break;
+            }
+            catch (ConsumeException ex)
+            {
+                if (ex.Error.Code == ErrorCode.UnknownTopicOrPart)
+                {
+                    _logger.LogWarning("Kafka topic not ready — retrying in 3s");
+                    await Task.Delay(3000, ct);
+                }
+                else
+                {
+                    _logger.LogError(ex, "Kafka consume error");
+                    await Task.Delay(1000, ct);
+                }
             }
             catch (Exception ex)
             {

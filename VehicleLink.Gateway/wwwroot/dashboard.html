@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VehicleLink Gateway — Operator Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #080c10;
+    --surface:   #0d1117;
+    --surface2:  #111820;
+    --border:    #1e2a38;
+    --text:      #cdd9e5;
+    --muted:     #5a7a99;
+    --green:     #1d9e75;
+    --green-dim: #071f17;
+    --green-lit: #3dcfa0;
+    --amber:     #e3a034;
+    --amber-dim: #1f1400;
+    --red:       #e24b4a;
+    --red-dim:   #1f0808;
+    --blue:      #378add;
+    --blue-dim:  #071830;
+    --mono:      'JetBrains Mono', 'Fira Code', monospace;
+    --sans:      'Inter', system-ui, sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    height: 100vh;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: 52px 1fr;
+    grid-template-columns: 1fr 380px;
+  }
+
+  /* ── Header ── */
+  header {
+    grid-column: 1 / -1;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+  }
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .logo-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--green-lit);
+    box-shadow: 0 0 8px var(--green-lit);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .logo-text {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+  .logo-sub {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .conn-badge {
+    font-size: 11px;
+    font-family: var(--mono);
+    padding: 3px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    background: var(--surface2);
+    transition: all 0.3s;
+  }
+  .conn-badge.connected {
+    border-color: var(--green);
+    color: var(--green-lit);
+    background: var(--green-dim);
+  }
+  .conn-badge.error {
+    border-color: var(--red);
+    color: var(--red);
+    background: var(--red-dim);
+  }
+  .stat-group {
+    display: flex;
+    gap: 1.5rem;
+  }
+  .stat {
+    text-align: right;
+  }
+  .stat-val {
+    font-size: 18px;
+    font-weight: 600;
+    font-family: var(--mono);
+    color: #fff;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 2px;
+  }
+
+  /* ── Map panel ── */
+  .map-panel {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .map-canvas {
+    width: 100%;
+    height: 100%;
+  }
+  .map-overlay {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(8,12,16,0.85);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    backdrop-filter: blur(4px);
+  }
+  .map-overlay div { margin-bottom: 2px; }
+  .map-overlay span { color: var(--text); }
+
+  /* Vehicle markers on canvas drawn via JS */
+
+  /* ── Right panel ── */
+  .right-panel {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  /* Vehicle status cards */
+  .vehicles-section {
+    border-bottom: 1px solid var(--border);
+    padding: 12px;
+  }
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .vehicle-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .vehicle-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 10px;
+    transition: border-color 0.2s;
+  }
+  .vehicle-card.HAZARD  { border-color: var(--amber); background: var(--amber-dim); }
+  .vehicle-card.EMERGENCY { border-color: var(--red); background: var(--red-dim); }
+  .v-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green-lit);
+    flex-shrink: 0;
+  }
+  .vehicle-card.HAZARD .v-dot    { background: var(--amber); }
+  .vehicle-card.EMERGENCY .v-dot { background: var(--red); animation: pulse 0.8s infinite; }
+  .v-id {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .v-meta {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .v-speed {
+    font-family: var(--mono);
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    text-align: right;
+    line-height: 1;
+  }
+  .v-speed-unit {
+    font-size: 10px;
+    color: var(--muted);
+    font-family: var(--sans);
+  }
+  .v-event {
+    font-size: 10px;
+    font-family: var(--mono);
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-top: 3px;
+    display: inline-block;
+  }
+  .event-NORMAL    { background: var(--green-dim); color: var(--green-lit); }
+  .event-HAZARD    { background: var(--amber-dim); color: var(--amber); }
+  .event-EMERGENCY { background: var(--red-dim);   color: var(--red); }
+
+  /* Feed */
+  .feed-section {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 12px;
+  }
+  .feed-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  .feed-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    display: grid;
+    grid-template-columns: 56px 50px 1fr auto;
+    gap: 8px;
+    align-items: center;
+    animation: fadeIn 0.2s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .feed-item.HAZARD    { border-color: rgba(227,160,52,0.4); }
+  .feed-item.EMERGENCY { border-color: rgba(226,75,74,0.5); }
+  .feed-time  { color: var(--muted); font-size: 10px; }
+  .feed-vid   { color: var(--blue); font-weight: 600; }
+  .feed-pos   { color: var(--text); font-size: 10px; }
+  .feed-badge {
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  .feed-badge.NORMAL    { background: var(--green-dim); color: var(--green-lit); }
+  .feed-badge.HAZARD    { background: var(--amber-dim); color: var(--amber); }
+  .feed-badge.EMERGENCY { background: var(--red-dim);   color: var(--red); }
+
+  /* Empty state */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--muted);
+    font-size: 12px;
+    gap: 8px;
+  }
+  .empty-state .icon { font-size: 28px; opacity: 0.4; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="header-left">
+    <div class="logo-dot" id="liveDot"></div>
+    <div>
+      <div class="logo-text">VehicleLink Gateway</div>
+      <div class="logo-sub">V2X Operator Dashboard · mTLS · Kafka · SignalR</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="stat-group">
+      <div class="stat">
+        <div class="stat-val" id="msgCount">0</div>
+        <div class="stat-label">Messages</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val" id="vehicleCount">0</div>
+        <div class="stat-label">Vehicles</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val" id="alertCount" style="color: var(--red);">0</div>
+        <div class="stat-label">Alerts</div>
+      </div>
+    </div>
+    <div class="conn-badge" id="connBadge">● connecting</div>
+  </div>
+</header>
+
+<!-- Map -->
+<div class="map-panel">
+  <canvas class="map-canvas" id="mapCanvas"></canvas>
+  <div class="map-overlay">
+    <div>Area: <span>Southfield / Detroit, MI</span></div>
+    <div>Lat:  <span>42.33 – 42.35</span></div>
+    <div>Lon:  <span>-83.06 – -83.03</span></div>
+  </div>
+</div>
+
+<!-- Right panel -->
+<div class="right-panel">
+  <div class="vehicles-section">
+    <div class="section-label">Active Vehicles</div>
+    <div class="vehicle-cards" id="vehicleCards">
+      <div class="empty-state">
+        <div class="icon">📡</div>
+        <div>Waiting for telemetry...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="feed-section">
+    <div class="section-label">Live Feed</div>
+    <div class="feed-list" id="feedList">
+      <div class="empty-state">
+        <div class="icon">⏳</div>
+        <div>No messages yet</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── State ──
+  const vehicles   = {};
+  const feedItems  = [];
+  let msgCount     = 0;
+  let alertCount   = 0;
+
+  // ── Canvas map setup ──
+  const canvas = document.getElementById('mapCanvas');
+  const ctx    = canvas.getContext('2d');
+
+  const MAP = {
+    minLat:  42.315, maxLat:  42.360,
+    minLon: -83.070, maxLon: -83.030
+  };
+
+  function resize() {
+    canvas.width  = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    drawMap();
+  }
+
+  function latLonToXY(lat, lon) {
+    const x = (lon - MAP.minLon) / (MAP.maxLon - MAP.minLon) * canvas.width;
+    const y = (1 - (lat - MAP.minLat) / (MAP.maxLat - MAP.minLat)) * canvas.height;
+    return { x, y };
+  }
+
+  function drawMap() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Background grid
+    ctx.strokeStyle = '#0f1820';
+    ctx.lineWidth   = 1;
+    const gridCols = 12, gridRows = 8;
+    for (let i = 0; i <= gridCols; i++) {
+      const x = canvas.width / gridCols * i;
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+    }
+    for (let i = 0; i <= gridRows; i++) {
+      const y = canvas.height / gridRows * i;
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+    }
+
+    // Road suggestions (faint lines)
+    ctx.strokeStyle = '#1a2535';
+    ctx.lineWidth = 2;
+    [0.25, 0.5, 0.75].forEach(t => {
+      ctx.beginPath();
+      ctx.moveTo(0, canvas.height * t);
+      ctx.lineTo(canvas.width, canvas.height * t);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(canvas.width * t, 0);
+      ctx.lineTo(canvas.width * t, canvas.height);
+      ctx.stroke();
+    });
+
+    // Draw vehicle trails and markers
+    Object.values(vehicles).forEach(v => {
+      const { x, y } = latLonToXY(v.lat, v.lon);
+      const color = v.event === 'EMERGENCY' ? '#e24b4a'
+                  : v.event === 'HAZARD'    ? '#e3a034'
+                  : '#3dcfa0';
+
+      // Ping ring for alerts
+      if (v.event !== 'NORMAL') {
+        const ring = (Date.now() % 1500) / 1500;
+        ctx.beginPath();
+        ctx.arc(x, y, 8 + ring * 20, 0, Math.PI * 2);
+        ctx.strokeStyle = color + '44';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      // Vehicle dot
+      ctx.beginPath();
+      ctx.arc(x, y, 7, 0, Math.PI * 2);
+      ctx.fillStyle = color + '22';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = color;
+      ctx.fill();
+
+      // Label
+      ctx.font = '500 11px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#fff';
+      ctx.fillText(v.id, x + 8, y - 6);
+
+      // Speed label
+      ctx.font = '10px monospace';
+      ctx.fillStyle = color;
+      ctx.fillText(v.speed + 'kmh', x + 8, y + 6);
+    });
+  }
+
+  // Animate map continuously for alert rings
+  function animateMap() {
+    drawMap();
+    requestAnimationFrame(animateMap);
+  }
+  animateMap();
+  window.addEventListener('resize', resize);
+  setTimeout(resize, 100);
+
+  // ── UI Updates ──
+  function updateVehicleCards() {
+    const container = document.getElementById('vehicleCards');
+    const vList = Object.values(vehicles);
+
+    if (vList.length === 0) {
+      container.innerHTML = `<div class="empty-state"><div class="icon">📡</div><div>Waiting for telemetry...</div></div>`;
+      return;
+    }
+
+    container.innerHTML = vList.map(v => `
+      <div class="vehicle-card ${v.event}">
+        <div class="v-dot"></div>
+        <div>
+          <div class="v-id">${v.id}</div>
+          <div class="v-meta">${v.lat.toFixed(4)}, ${v.lon.toFixed(4)}</div>
+          <span class="v-event event-${v.event}">${v.event}</span>
+        </div>
+        <div>
+          <div class="v-speed">${v.speed}</div>
+          <div class="v-speed-unit">km/h</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function addFeedItem(t) {
+    const time = new Date(t.timestamp).toLocaleTimeString('en-US', { hour12: false });
+    feedItems.unshift({ time, id: t.vehicleId, lat: t.latitude, lon: t.longitude, speed: t.speedKmh, event: t.eventType });
+    if (feedItems.length > 80) feedItems.pop();
+
+    const list = document.getElementById('feedList');
+    list.innerHTML = feedItems.map(f => `
+      <div class="feed-item ${f.event}">
+        <span class="feed-time">${f.time}</span>
+        <span class="feed-vid">${f.id}</span>
+        <span class="feed-pos">${f.lat.toFixed(3)}, ${f.lon.toFixed(3)}</span>
+        <span class="feed-badge ${f.event}">${f.event}</span>
+      </div>
+    `).join('');
+  }
+
+  function updateStats() {
+    document.getElementById('msgCount').textContent     = msgCount.toLocaleString();
+    document.getElementById('vehicleCount').textContent = Object.keys(vehicles).length;
+    document.getElementById('alertCount').textContent   = alertCount;
+  }
+
+  // ── SignalR connection ──
+  const badge = document.getElementById('connBadge');
+
+  const connection = new signalR.HubConnectionBuilder()
+      .withUrl('/hubs/telemetry')
+    .withAutomaticReconnect([1000, 2000, 5000, 10000])
+    .configureLogging(signalR.LogLevel.Warning)
+    .build();
+
+  connection.on('ReceiveTelemetry', (data) => {
+    msgCount++;
+
+    vehicles[data.vehicleId] = {
+      id:    data.vehicleId,
+      lat:   data.latitude,
+      lon:   data.longitude,
+      speed: Math.round(data.speedKmh),
+      event: data.eventType
+    };
+
+    if (data.eventType !== 'NORMAL') alertCount++;
+
+    addFeedItem(data);
+    updateVehicleCards();
+    updateStats();
+  });
+
+  connection.onreconnecting(() => {
+    badge.textContent = '● reconnecting';
+    badge.className   = 'conn-badge';
+  });
+
+  connection.onreconnected(() => {
+    badge.textContent = '● connected';
+    badge.className   = 'conn-badge connected';
+  });
+
+  connection.onclose(() => {
+    badge.textContent = '● disconnected';
+    badge.className   = 'conn-badge error';
+  });
+
+  async function start() {
+    try {
+      await connection.start();
+      badge.textContent = '● connected';
+      badge.className   = 'conn-badge connected';
+      console.log('SignalR connected to VehicleLink Gateway');
+    } catch (err) {
+      badge.textContent = '● connection failed';
+      badge.className   = 'conn-badge error';
+      console.error('SignalR error:', err);
+      setTimeout(start, 5000);
+    }
+  }
+
+  start();
+</script>
+</body>
+</html>

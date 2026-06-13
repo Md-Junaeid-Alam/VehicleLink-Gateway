@@ -20,10 +20,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("DashboardPolicy", policy =>
     {
-        policy.WithOrigins("http://localhost:4200")
-              .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials();
+        policy.WithOrigins(
+    "http://localhost:4200",
+    "null",              // ← allows file opened HTML files
+    "http://localhost");
     });
 });
 
@@ -32,5 +32,7 @@ var app = builder.Build();
 app.UseCors("DashboardPolicy");
 app.MapControllers();
 app.MapHub<TelemetryHub>("/hubs/telemetry");
+app.UseStaticFiles();
+app.MapGet("/", () => Results.Redirect("/dashboard.html"));
 
 app.Run();

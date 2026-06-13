@@ -28,4 +28,8 @@
     <ProjectReference Include="..\VehicleLink.Infrastructure\VehicleLink.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>

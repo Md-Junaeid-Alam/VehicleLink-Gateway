@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "dgSpecHash": "JOCkZabNlic=",
+  "success": true,
+  "projectFilePath": "D:\\VehicleLinkGatewayProject\\VehicleLink.Simulator\\VehicleLink.Simulator.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mdjun\\.nuget\\packages\\mqttnet\\5.1.0.1559\\mqttnet.5.1.0.1559.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "message": "VehicleLink.Simulator depends on MQTTnet (>= 5.1.0) but MQTTnet 5.1.0 was not found. MQTTnet 5.1.0.1559 was resolved instead.",
+      "projectPath": "D:\\VehicleLinkGatewayProject\\VehicleLink.Simulator\\VehicleLink.Simulator.csproj",
+      "warningLevel": 1,
+      "filePath": "D:\\VehicleLinkGatewayProject\\VehicleLink.Simulator\\VehicleLink.Simulator.csproj",
+      "libraryId": "MQTTnet",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
+}

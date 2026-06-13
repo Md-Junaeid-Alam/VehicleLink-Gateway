@@ -11,13 +11,16 @@ public class MqttListenerService : BackgroundService
 {
     private readonly IKafkaProducerService _kafkaProducer;
     private readonly ILogger<MqttListenerService> _logger;
+    private readonly IConfiguration _config;
 
     public MqttListenerService(
         IKafkaProducerService kafkaProducer,
-        ILogger<MqttListenerService> logger)
+        ILogger<MqttListenerService> logger,
+        IConfiguration config)
     {
         _kafkaProducer = kafkaProducer;
         _logger = logger;
+        _config = config;
     }
 
     protected override async Task ExecuteAsync(CancellationToken ct)
@@ -25,25 +28,34 @@ public class MqttListenerService : BackgroundService
         var mqttFactory = new MqttClientFactory();
         using var mqttClient = mqttFactory.CreateMqttClient();
 
+        // Resolve certs path from config or fall back to solution root
+        var certsPath = _config["Mqtt:CertsPath"]
+            ?? Path.Combine(AppContext.BaseDirectory,
+                "..", "..", "..", "..", "certs");
+
+        certsPath = Path.GetFullPath(certsPath);
+        _logger.LogInformation("Loading certs from {CertsPath}", certsPath);
+
         // Load CA cert
         var caChain = new X509Certificate2Collection();
-        caChain.ImportFromPemFile("certs/ca.crt");
+        caChain.ImportFromPemFile(Path.Combine(certsPath, "ca.crt"));
 
         // Load client cert from PEM files
-        var certPem = File.ReadAllText("certs/gateway.crt");
-        var keyPem = File.ReadAllText("certs/gateway.key");
+        var certPem = File.ReadAllText(Path.Combine(certsPath, "gateway.crt"));
+        var keyPem = File.ReadAllText(Path.Combine(certsPath, "gateway.key"));
         var rawCert = X509Certificate2.CreateFromPem(certPem, keyPem);
-        var clientCert = X509CertificateLoader.LoadPkcs12(rawCert.Export(X509ContentType.Pfx),
-        password: null);
+        var clientCert = X509CertificateLoader.LoadPkcs12(
+            rawCert.Export(X509ContentType.Pfx), password: null);
 
         var clientCerts = new X509Certificate2Collection();
         clientCerts.Add(clientCert);
 
         var tlsOptions = new MqttClientTlsOptionsBuilder()
-            .WithTrustChain(caChain)
-            .WithClientCertificates(clientCerts)
-            .WithIgnoreCertificateRevocationErrors()
-            .Build();
+    .WithTrustChain(caChain)
+    .WithClientCertificates(clientCerts)
+    .WithIgnoreCertificateRevocationErrors()
+    .WithCertificateValidationHandler(_ => true)  // trust self-signed CA in dev
+    .Build();
 
         var mqttClientOptions = new MqttClientOptionsBuilder()
             .WithTcpServer("localhost", 8883)
@@ -54,9 +66,8 @@ public class MqttListenerService : BackgroundService
         {
             try
             {
-                // v5 uses Payload as ReadOnlyMemory<byte>
                 var payload = Encoding.UTF8.GetString(
-           e.ApplicationMessage.Payload.ToArray());
+                    e.ApplicationMessage.Payload.ToArray());
 
                 var telemetry = JsonSerializer
                     .Deserialize<VehicleTelemetry>(payload);

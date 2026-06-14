@@ -69,3 +69,122 @@ flowchart TD
 > Real-time V2X telemetry from 3 vehicles flowing through 
 > MQTT over mTLS → Kafka → SignalR → operator dashboard.
 > EMERGENCY events trigger live alerts with visual indicators.
+## How to Run
+
+### Prerequisites
+- [.NET 10 SDK](https://dotnet.microsoft.com/download)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- [Git Bash](https://git-scm.com/downloads) (for certificate generation on Windows)
+
+---
+
+### 1 — Clone the repo
+
+```bash
+git clone https://github.com/Md-Junaeid-Alam/VehicleLink-Gateway.git
+cd VehicleLink-Gateway
+```
+
+---
+
+### 2 — Generate certificates
+
+Open **Git Bash** in the project root:
+
+```bash
+mkdir certs && cd certs
+
+# CA
+openssl genrsa -out ca.key 2048
+openssl req -new -x509 -days 365 -key ca.key -out ca.crt -subj "//CN=VehicleLinkCA"
+
+# Broker
+openssl genrsa -out server.key 2048
+openssl req -new -key server.key -out server.csr -subj "//CN=mqtt-broker"
+openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 365
+
+# Vehicle simulator
+openssl genrsa -out client.key 2048
+openssl req -new -key client.key -out client.csr -subj "//CN=vehicle-001"
+openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out client.crt -days 365
+
+# Gateway
+openssl genrsa -out gateway.key 2048
+openssl req -new -key gateway.key -out gateway.csr -subj "//CN=gateway"
+openssl x509 -req -in gateway.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out gateway.crt -days 365
+
+cd ..
+```
+
+> **Windows:** Use `//CN=` (double slash) in Git Bash. On Linux/Mac use `/CN=`.
+
+---
+
+### 3 — Start the Docker stack
+
+```bash
+docker compose up -d
+docker compose ps   # verify all 4 containers are running
+```
+| Container | Purpose | Port |
+|---|---|---|
+| mosquitto | MQTT broker with mTLS | 8883 |
+| kafka | Event streaming | 9092 |
+| zookeeper | Kafka coordination | 2181 |
+| sqlserver | Telemetry persistence | 1433 |
+
+---
+
+### 4 — Run the EF Core migration *(first time only)*
+
+```powershell
+dotnet ef migrations add InitialCreate `
+  --project VehicleLink.Infrastructure `
+  --startup-project VehicleLink.Gateway
+
+dotnet ef database update `
+  --project VehicleLink.Infrastructure `
+  --startup-project VehicleLink.Gateway
+```
+
+---
+
+### 5 — Run the Gateway API
+
+```powershell
+cd VehicleLink.Gateway
+dotnet run
+```
+wait for: info: MQTT connected listening on v2x/telemetry/#
+info: Now listening on: http://localhost:5038
+
+---
+
+### 6 — Run the Vehicle Simulator
+
+Open a **second terminal**:
+
+```powershell
+cd VehicleLink.Simulator
+dotnet run
+```
+
+3 vehicles start publishing live telemetry every second.
+
+---
+
+### 7 — Open the dashboard
+
+Live map, scrolling telemetry feed, and real-time EMERGENCY alerts.
+
+---
+
+### Stop everything
+
+```bash
+docker compose down      # keep data
+docker compose down -v   # wipe all data
+```
+
+---
+
